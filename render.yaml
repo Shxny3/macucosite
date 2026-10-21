@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: macuco-central-10vm
+    runtime: docker
+    plan: starter
+    autoDeployTrigger: commit
+    healthCheckPath: /health
+    envVars:
+      - key: MACUCO_SERVER_DIR
+        value: /data
+      - key: MACUCO_PUBLIC_DEPLOY
+        value: "1"
+      - key: MACUCO_CONFIRM_PERSISTENCE
+        value: "YES"
+    disk:
+      name: macuco-accounts
+      mountPath: /data
+      sizeGB: 1

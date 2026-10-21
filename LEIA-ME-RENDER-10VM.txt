@@ -1,0 +1,68 @@
+MACUCO CENTRAL 10 VMs - HOSPEDAGEM NO RENDER (BETA)
+===================================================
+
+ATENCAO: voce precisa publicar este servidor na sua propria conta Render.
+A criacao dos arquivos nao coloca um site no ar automaticamente.
+
+1. No GitHub crie um repositorio PRIVADO, ex. macuco-render.
+2. Extraia o ZIP deste servidor e envie OS ARQUIVOS (nao o ZIP)
+   para a raiz do repositorio. Nunca envie senhas, .env ou arquivos .db.
+3. No Render (render.com), escolha New > Blueprint e conecte o repositorio
+   que contem render.yaml, ou crie um Web Service (Docker).
+4. O projeto usa plano com disco persistente. Confira o custo na sua
+   conta Render antes de criar o servico. O plano gratis/ephemero nao
+   preserva o banco SQLite.
+5. Confira em Environment:
+      MACUCO_SERVER_DIR = /data
+      MACUCO_PUBLIC_DEPLOY = 1
+      MACUCO_CONFIRM_PERSISTENCE = YES
+   O Persistent Disk deve estar montado no caminho /data.
+   Mantenha 1 processo, 1 instancia; multiplos workers quebram o estado
+   das conexoes WebSocket em memoria.
+6. Aguarde a geracao da URL HTTPS, exemplo https://seu-app.onrender.com.
+   Abra /health: esperado {"ok":true,"service":"macuco-render-10vm",...}.
+   NAO compartilhe segredos, IDs de sessao, tokens ou arquivos do banco.
+
+NO WINDOWS (MACUCO v9.9.13 - PACOTE SEPARADO)
+------------------------------------------------
+A) Descompacte a v9.9.13 em cada VM Windows.
+B) Execute CONFIGURAR_SITE_RENDER.bat em cada uma e cole a MESMA URL HTTPS.
+C) Abra INICIAR.bat, faca cadastro/login na conta foguete.
+D) Na tela Central Macuco, em cada VM, escolha numero DIFERENTE:
+     VM 1 na primeira, VM 2 na segunda, ... VM 10 na decima.
+   Clique 'VINCULAR / ABRIR MACUCO DESTA VM'.
+E) Dentro do painel Macuco aberto, vincule a janela PKA correspondente.
+F) No computador de controle, abra a mesma v9.9.13, faca login e
+   selecione a VM online na lista, clique 'CONTROLAR VM SELECIONADA'.
+G) Para amigo acessar, RECOMENDADO: ele cria conta separada no Render
+   e voce concede acesso pelo convite no site, sem compartilhar senha.
+
+REGRAS:
+- Cada VM tem identificacao propria em LOCALAPPDATA\ControleMacuco\vm_identity.json.
+- Nao copie a pasta %LOCALAPPDATA%\ControleMacuco de uma VM para outra.
+- Conta e senhas pertencem ao banco SQLite do Render em /data.
+- Perfis de DG, rota, AutoCatch e vinculos PKA continuam LOCAIS na VM.
+- Clique local dentro da janela Macuco Pai revoga so a sessao remota dessa VM.
+- Conexao remota falhando nao deve parar os bots locais.
+- A conexao remota mostra UMA VM selecionada por vez; as 10 ficam listadas.
+- Nao ha garantia de 60 FPS de transmissao ou operacao real validada no PKA.
+
+MIGRACAO:
+- Este e um novo servidor. Usuários do Railway NAO sao importados
+  automaticamente; cadastre-os novamente (mesmo nome permitido).
+- Se voce tiver o banco macuco_accounts.db antigo e souber fazer backup
+  consistente, pode migrar manualmente para /data enquanto o servidor estiver
+  parado. Faca backup separado antes; nunca troque o banco com servico aberto.
+- Nao remova o disco /data ao fazer redeploys. Backups dentro do mesmo
+  volume nao substituem copias externas.
+
+DIAGNOSTICO:
+- /health verifica o processo e o banco.
+- /api/devices (necessita login) mostra online e available para cada VM.
+- Se Render desligar: confira plano, volume e logs.
+- Se VM desconectada: confira que o Macuco Pai esta aberto na VM certa,
+  que o servidor configurado e o mesmo, e que o proprietario permitiu
+  acesso remoto. O bot PKA nao e hospedado no Render.
+
+SEGURANCA: use senhas fortes e nao compartilhe conta; use convite sempre
+que possivel. Esta e uma beta. Teste em duas VMs antes de abrir as dez.

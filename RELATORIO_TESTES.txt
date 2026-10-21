@@ -1,0 +1,16 @@
+TESTES OFFLINE - v9.9.13 BETA
+
+- 10 dispositivos VM 1..10 registrados com a mesma conta: PASSOU
+- 10 conexoes WebSocket de agentes simultaneos: PASSOU
+- VM duplicada recusada: PASSOU
+- Registro de VM 11 recusado: PASSOU
+- Status online/disponivel consultado por login: PASSOU
+- Controle remoto da VM 6 em canal isolado: PASSOU
+- Quadro de imagem recebido e comando entregue ao agente: PASSOU
+- Clique do dono revoga apenas o controle da VM respectiva: PASSOU
+- Persistencia de conta/dispositivos apos criar nova app: PASSOU
+- Arquivos Python compilam: PASSOU
+
+NAO TESTADO: interface PySide6 em Windows/VM, login na hospedagem Render real,
+FPS/latencia sob 10 jogos, captura real e M4 dentro do PKA.
+Esta versao e BETA.
